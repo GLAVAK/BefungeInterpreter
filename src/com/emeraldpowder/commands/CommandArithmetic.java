@@ -11,23 +11,29 @@ public class CommandArithmetic extends Command
     @Override
     public void execute(MachineState state)
     {
+        int a = state.getStack().pop();
+        int b = state.getStack().pop();
+        int result = 0;
+
         switch (character)
         {
             case '+':
-                state.getStack().push(state.getStack().pop() + state.getStack().pop());
+                result = a + b;
                 break;
             case '-':
-                state.getStack().push(state.getStack().pop() - state.getStack().pop());
+                result = a - b;
                 break;
             case '*':
-                state.getStack().push(state.getStack().pop() * state.getStack().pop());
+                result = a * b;
                 break;
             case '/':
-                state.getStack().push(state.getStack().pop() / state.getStack().pop());
+                result = a / b;
                 break;
             case '%':
-                state.getStack().push(state.getStack().pop() % state.getStack().pop());
+                result = a % b;
                 break;
         }
+
+        state.getStack().push(result);
     }
 }

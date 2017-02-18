@@ -10,6 +10,7 @@ public class MachineState
 {
     public MovingDirection movingDirection;
     public boolean isInStringMode;
+    public boolean bridgeNextStep;
     private Position currentPosition;
     private Deque<Integer> stack;
     private boolean isStopped;

@@ -1,8 +1,5 @@
 package com.emeraldpowder;
 
-import com.emeraldpowder.commands.CommandToggleStringMode;
-import com.sun.javafx.scene.control.skin.ToggleButtonSkin;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -70,7 +67,7 @@ public class Machine
     {
         char symbol = getProgramSymbol(state.getCurrentPosition());
 
-        if(!state.isInStringMode || symbol == '"')
+        if (!state.isInStringMode || symbol == '"')
         {
             Command command = manager.getCommandForSymbol(symbol);
             command.execute(state);
@@ -92,19 +89,27 @@ public class Machine
             throws ProgramError
     {
         Position position = state.getCurrentPosition();
+
+        int speed = 1;
+        if (state.bridgeNextStep)
+        {
+            speed++;
+            state.bridgeNextStep = false;
+        }
+
         switch (state.movingDirection)
         {
             case Up:
-                position.y--;
+                position.y -= speed;
                 break;
             case Right:
-                position.x++;
+                position.x += speed;
                 break;
             case Down:
-                position.y++;
+                position.y += speed;
                 break;
             case Left:
-                position.x--;
+                position.x -= speed;
                 break;
         }
 
