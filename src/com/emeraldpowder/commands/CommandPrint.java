@@ -1,6 +1,7 @@
 package com.emeraldpowder.commands;
 
 import com.emeraldpowder.Command;
+import com.emeraldpowder.Machine;
 import com.emeraldpowder.MachineState;
 
 /**
@@ -9,16 +10,16 @@ import com.emeraldpowder.MachineState;
 public class CommandPrint extends Command
 {
     @Override
-    public void execute(MachineState state)
+    public void execute(Machine machine)
     {
         String result = "";
         switch (character)
         {
             case ',':
-                result = (char) state.getStack().pop().intValue() + "";
+                result = machine.state.popStackChar() + "";
                 break;
             case '.':
-                result = state.getStack().pop() + " ";
+                result = machine.state.popStack() + " ";
                 break;
         }
         System.out.print(result);

@@ -1,6 +1,7 @@
 package com.emeraldpowder.commands;
 
 import com.emeraldpowder.Command;
+import com.emeraldpowder.Machine;
 import com.emeraldpowder.MachineState;
 
 /**
@@ -9,22 +10,23 @@ import com.emeraldpowder.MachineState;
 public class CommandStackOperations extends Command
 {
     @Override
-    public void execute(MachineState state)
+    public void execute(Machine machine)
     {
         switch (character)
         {
             case ':':
-                int value = state.getStack().peek();
-                state.getStack().push(value);
+                int value = machine.state.popStack();
+                machine.state.pushStack(value);
+                machine.state.pushStack(value);
                 break;
             case '\\':
-                int value1 = state.getStack().pop();
-                int value2 = state.getStack().pop();
-                state.getStack().push(value1);
-                state.getStack().push(value2);
+                int value1 = machine.state.popStack();
+                int value2 = machine.state.popStack();
+                machine.state.pushStack(value1);
+                machine.state.pushStack(value2);
                 break;
             case '$':
-                state.getStack().pop();
+                machine.state.popStack();
                 break;
         }
     }

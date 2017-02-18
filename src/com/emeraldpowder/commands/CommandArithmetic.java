@@ -1,6 +1,7 @@
 package com.emeraldpowder.commands;
 
 import com.emeraldpowder.Command;
+import com.emeraldpowder.Machine;
 import com.emeraldpowder.MachineState;
 
 /**
@@ -9,10 +10,10 @@ import com.emeraldpowder.MachineState;
 public class CommandArithmetic extends Command
 {
     @Override
-    public void execute(MachineState state)
+    public void execute(Machine machine)
     {
-        int a = state.getStack().pop();
-        int b = state.getStack().pop();
+        int a = machine.state.popStack();
+        int b = machine.state.popStack();
         int result = 0;
 
         switch (character)
@@ -21,19 +22,19 @@ public class CommandArithmetic extends Command
                 result = a + b;
                 break;
             case '-':
-                result = a - b;
+                result = b - a;
                 break;
             case '*':
                 result = a * b;
                 break;
             case '/':
-                result = a / b;
+                result = b / a;
                 break;
             case '%':
                 result = a % b;
                 break;
         }
 
-        state.getStack().push(result);
+        machine.state.pushStack(result);
     }
 }

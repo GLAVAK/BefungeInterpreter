@@ -1,6 +1,7 @@
 package com.emeraldpowder.commands;
 
 import com.emeraldpowder.Command;
+import com.emeraldpowder.Machine;
 import com.emeraldpowder.MachineState;
 
 /**
@@ -9,14 +10,17 @@ import com.emeraldpowder.MachineState;
 public class CommandAsk extends Command
 {
     @Override
-    public void execute(MachineState state)
+    public void execute(Machine machine)
     {
         String read = System.console().readLine();
+        int value = 0;
 
         switch (character)
         {
-            case '&': state.getStack().push(Integer.parseInt(read)); break;
-            case '~': state.getStack().push((int) read.charAt(0)); break;
+            case '&': value = Integer.parseInt(read); break;
+            case '~': value = (int) read.charAt(0); break;
         }
+
+        machine.state.pushStack(value);
     }
 }

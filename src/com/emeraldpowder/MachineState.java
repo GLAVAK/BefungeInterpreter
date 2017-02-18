@@ -23,6 +23,32 @@ public class MachineState
         stack = new ArrayDeque<>();
     }
 
+    public int popStack()
+    {
+        if(stack.isEmpty())
+            return 0;
+        else
+            return stack.pop();
+    }
+
+    public char popStackChar()
+    {
+        if(stack.isEmpty())
+            return 0;
+        else
+            return (char) stack.pop().intValue();
+    }
+
+    public void pushStack(int value)
+    {
+        stack.push(value);
+    }
+
+    public void pushStack(char value)
+    {
+        stack.push((int) value);
+    }
+
     public Position getCurrentPosition()
     {
         return currentPosition;
@@ -32,11 +58,6 @@ public class MachineState
     {
         this.currentPosition.x = x;
         this.currentPosition.y = y;
-    }
-
-    public Deque<Integer> getStack()
-    {
-        return stack;
     }
 
     public boolean isStopped()

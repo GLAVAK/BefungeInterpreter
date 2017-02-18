@@ -1,9 +1,6 @@
 package com.emeraldpowder.commands;
 
-import com.emeraldpowder.Command;
-import com.emeraldpowder.MachineState;
-import com.emeraldpowder.Main;
-import com.emeraldpowder.MovingDirection;
+import com.emeraldpowder.*;
 
 /**
  * Created by glavak on Feb 17, 17.
@@ -11,7 +8,7 @@ import com.emeraldpowder.MovingDirection;
 public class CommandNoOp extends Command
 {
     @Override
-    public void execute(MachineState state)
+    public void execute(Machine machine)
     {
         // Do nothing
     }

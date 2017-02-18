@@ -1,9 +1,6 @@
 package com.emeraldpowder.commands;
 
-import com.emeraldpowder.Command;
-import com.emeraldpowder.MachineState;
-import com.emeraldpowder.MovingDirection;
-import com.emeraldpowder.Position;
+import com.emeraldpowder.*;
 
 /**
  * Created by glavak on Feb 17, 17.
@@ -11,8 +8,8 @@ import com.emeraldpowder.Position;
 public class CommandBridge extends Command
 {
     @Override
-    public void execute(MachineState state)
+    public void execute(Machine machine)
     {
-        state.bridgeNextStep = true;
+        machine.state.bridgeNextStep = true;
     }
 }

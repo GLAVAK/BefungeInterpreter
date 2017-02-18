@@ -2,16 +2,19 @@ package com.emeraldpowder.commands;
 
 import com.emeraldpowder.Command;
 import com.emeraldpowder.Machine;
-import com.emeraldpowder.MachineState;
 
 /**
  * Created by glavak on Feb 17, 17.
  */
-public class CommandToggleStringMode extends Command
+public class CommandLogicalNot extends Command
 {
     @Override
     public void execute(Machine machine)
     {
-        machine.state.isInStringMode = !machine.state.isInStringMode;
+        boolean a = (machine.state.popStack() != 0);
+
+        a = !a;
+
+        machine.state.pushStack(a ? 1 : 0);
     }
 }

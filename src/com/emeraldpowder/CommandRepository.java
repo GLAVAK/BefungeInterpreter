@@ -9,12 +9,12 @@ import java.util.Map;
 /**
  * Created by glavak on Feb 17, 17.
  */
-public class CommandManager
+public class CommandRepository
 {
     private Map<Character, String> classNames;
     private Map<Character, Class<?>> classes;
 
-    public CommandManager()
+    public CommandRepository()
             throws IOException
     {
         loadTable();
@@ -24,11 +24,11 @@ public class CommandManager
      * Instantiates new Command, according to given symbol, as specified in config file
      * @param symbol
      * @return
-     * @throws ConfigError
-     * @throws ProgramError
+     * @throws ConfigException
+     * @throws ProgramException
      */
     public Command getCommandForSymbol(char symbol)
-            throws ConfigError, ProgramError
+            throws ConfigException, ProgramException
     {
         Class<?> requiredClass = classes.get(symbol);
 
@@ -41,11 +41,11 @@ public class CommandManager
             }
             catch (ClassNotFoundException e)
             {
-                throw new ConfigError("Class specified in config not found", e);
+                throw new ConfigException("Class specified in config not found", e);
             }
             catch (NullPointerException e)
             {
-                throw new ProgramError(String.format("Unknown symbol '%s'", symbol + ""));
+                throw new ProgramException(String.format("Unknown symbol '%s'", symbol + ""));
             }
         }
 
@@ -58,7 +58,7 @@ public class CommandManager
         }
         catch (Exception e)
         {
-            throw new ConfigError("Error creating class specified in config", e);
+            throw new ConfigException("Error creating class specified in config", e);
         }
     }
 

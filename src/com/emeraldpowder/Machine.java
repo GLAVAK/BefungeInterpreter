@@ -11,14 +11,14 @@ import java.util.ArrayList;
 public class Machine
 {
     public final MachineState state;
-    private CommandManager manager;
+    private CommandRepository manager;
     private ArrayList<String> program;
 
     public Machine()
             throws IOException
     {
         this.state = new MachineState();
-        this.manager = new CommandManager();
+        this.manager = new CommandRepository();
     }
 
     public char getProgramSymbol(Position position)
@@ -35,6 +35,7 @@ public class Machine
         program.set(position.y, line);
     }
 
+
     /**
      * Reads contents of file with given filename, and loads it as program for execution
      *
@@ -49,32 +50,43 @@ public class Machine
         BufferedReader programReader = new BufferedReader(new FileReader(filename));
 
         String line = programReader.readLine();
+        int maxLineLength = 0;
         while (line != null)
         {
             program.add(line);
+            maxLineLength = Math.max(maxLineLength, line.length());
 
             line = programReader.readLine();
+        }
+
+        // Set length of all lines equals to maximum:
+        for (int i = 0; i < program.size(); i++)
+        {
+            while (program.get(i).length() < maxLineLength)
+            {
+                program.set(i, program.get(i) + " ");
+            }
         }
     }
 
     /**
      * Executes command, on which machine currently is, and moves to next position
      *
-     * @throws ConfigError If error loading command from config
+     * @throws ConfigException If error loading command from config
      */
     public void step()
-            throws ConfigError, ProgramError
+            throws ConfigException, ProgramException
     {
         char symbol = getProgramSymbol(state.getCurrentPosition());
 
         if (!state.isInStringMode || symbol == '"')
         {
             Command command = manager.getCommandForSymbol(symbol);
-            command.execute(state);
+            command.execute(this);
         }
         else
         {
-            state.getStack().push((int) symbol);
+            state.pushStack(symbol);
         }
 
         moveOneStep();
@@ -83,10 +95,10 @@ public class Machine
     /**
      * Moves machine one step in current facing direction
      *
-     * @throws ProgramError If machine moved out of program
+     * @throws ProgramException If machine moved out of program
      */
     public void moveOneStep()
-            throws ProgramError
+            throws ProgramException
     {
         Position position = state.getCurrentPosition();
 
@@ -118,7 +130,7 @@ public class Machine
                 position.x > program.get(position.y).length() ||
                 position.y > program.size())
         {
-            throw new ProgramError(String.format(
+            throw new ProgramException(String.format(
                     "Machine moved out of program, position (%d, %d)", position.x, position.y));
         }
     }

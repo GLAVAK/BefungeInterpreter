@@ -11,7 +11,7 @@ public class Main
         try
         {
             Machine machine = new Machine();
-            machine.loadProgram("programs/hello_world.txt");
+            machine.loadProgram("programs/factorial.txt");
             while (!machine.state.isStopped())
             {
                 machine.step();
