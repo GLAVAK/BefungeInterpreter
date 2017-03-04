@@ -1,9 +1,8 @@
 package com.emeraldpowder;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by glavak on Feb 17, 17.
@@ -11,14 +10,19 @@ import java.util.ArrayList;
 public class Machine
 {
     public final MachineState state;
-    private CommandRepository manager;
-    private ArrayList<String> program;
+    private List<String> program;
 
-    public Machine()
-            throws IOException
+    private final ICommandRepository commandRepository;
+
+    public Machine(ICommandRepository commandRepository)
     {
         this.state = new MachineState();
-        this.manager = new CommandRepository();
+        this.commandRepository = commandRepository;
+    }
+
+    public void loadProgram(IProgramLoader programLoader) throws IOException
+    {
+        program = programLoader.loadProgram();
     }
 
     public char getProgramSymbol(Position position)
@@ -35,40 +39,6 @@ public class Machine
         program.set(position.y, line);
     }
 
-
-    /**
-     * Reads contents of file with given filename, and loads it as program for execution
-     *
-     * @param filename
-     * @throws IOException
-     */
-    public void loadProgram(String filename)
-            throws IOException
-    {
-        program = new ArrayList<>();
-
-        BufferedReader programReader = new BufferedReader(new FileReader(filename));
-
-        String line = programReader.readLine();
-        int maxLineLength = 0;
-        while (line != null)
-        {
-            program.add(line);
-            maxLineLength = Math.max(maxLineLength, line.length());
-
-            line = programReader.readLine();
-        }
-
-        // Set length of all lines equals to maximum:
-        for (int i = 0; i < program.size(); i++)
-        {
-            while (program.get(i).length() < maxLineLength)
-            {
-                program.set(i, program.get(i) + " ");
-            }
-        }
-    }
-
     /**
      * Executes command, on which machine currently is, and moves to next position
      *
@@ -81,7 +51,7 @@ public class Machine
 
         if (!state.isInStringMode || symbol == '"')
         {
-            Command command = manager.getCommandForSymbol(symbol);
+            Command command = commandRepository.getCommandForSymbol(symbol);
             command.execute(this);
         }
         else
@@ -101,6 +71,7 @@ public class Machine
             throws ProgramException
     {
         Position position = state.getCurrentPosition();
+
 
         int speed = 1;
         if (state.bridgeNextStep)
