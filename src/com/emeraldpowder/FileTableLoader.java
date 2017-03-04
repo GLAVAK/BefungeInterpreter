@@ -1,11 +1,10 @@
 package com.emeraldpowder;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 
 /**
  * Created by glavak on 28.02.17.
@@ -20,20 +19,35 @@ public class FileTableLoader implements ITableLoader
     }
 
     @Override
-    public Map<Character, String> loadTable() throws IOException
+    public Map<Character, String> loadTable() throws ConfigException
     {
         Map<Character, String> result = new HashMap<>();
 
         InputStream stream = ClassLoader.getSystemResourceAsStream(filepath);
-        BufferedReader commandsReader = new BufferedReader(new InputStreamReader(stream));
+        Properties properties = new Properties();
 
-        String line = commandsReader.readLine();
-        while (line != null)
+        try
         {
-            String[] splited = line.split("=");
-            result.put(splited[0].charAt(0), splited[1]);
-
-            line = commandsReader.readLine();
+            properties.load(stream);
+            for (Map.Entry<Object, Object> entry : properties.entrySet())
+            {
+                result.put(entry.getKey().toString().charAt(0), entry.getValue().toString());
+            }
+        }
+        catch (IOException e)
+        {
+            throw new ConfigException("Reading config error", e);
+        }
+        finally
+        {
+            try
+            {
+                stream.close();
+            }
+            catch (IOException e)
+            {
+                throw new ConfigException("Reading config error", e);
+            }
         }
 
         return result;

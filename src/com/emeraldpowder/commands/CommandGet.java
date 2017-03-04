@@ -1,8 +1,7 @@
 package com.emeraldpowder.commands;
 
 import com.emeraldpowder.Command;
-import com.emeraldpowder.Machine;
-import com.emeraldpowder.MachineState;
+import com.emeraldpowder.IMachineState;
 import com.emeraldpowder.Position;
 
 /**
@@ -11,12 +10,12 @@ import com.emeraldpowder.Position;
 public class CommandGet extends Command
 {
     @Override
-    public void execute(Machine machine)
+    public void execute(IMachineState machineState)
     {
-        int y = machine.state.popStack();
-        int x = machine.state.popStack();
+        int y = machineState.popStack();
+        int x = machineState.popStack();
 
-        char symbol = machine.getProgramSymbol(new Position(x, y));
-        machine.state.pushStack(symbol);
+        char symbol = machineState.getProgramSymbol(new Position(x, y));
+        machineState.pushStack(symbol);
     }
 }

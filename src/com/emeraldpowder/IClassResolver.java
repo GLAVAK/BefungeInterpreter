@@ -7,6 +7,7 @@ public interface IClassResolver
 {
     /**
      * Returns Class object by class name
+     *
      * @param name
      * @return
      */

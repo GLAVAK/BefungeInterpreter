@@ -5,7 +5,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,11 +19,11 @@ public class MachineTest
     @Test
     public void testGetSetProgramSymbol() throws Exception
     {
-        Assert.assertEquals('<', machine.getProgramSymbol(new Position(3,2)));
+        Assert.assertEquals('<', machine.state.getProgramSymbol(new Position(3, 2)));
 
-        machine.setProgramSymbol(new Position(3,2), '@');
+        machine.state.setProgramSymbol(new Position(3, 2), '@');
 
-        Assert.assertEquals('@', machine.getProgramSymbol(new Position(3,2)));
+        Assert.assertEquals('@', machine.state.getProgramSymbol(new Position(3, 2)));
     }
 
     @Test
@@ -34,7 +33,7 @@ public class MachineTest
 
         Assert.assertEquals(new Position(1, 0), machine.state.getCurrentPosition());
 
-        machine.state.movingDirection = MovingDirection.Down;
+        machine.state.setMovingDirection(MovingDirection.Down);
         machine.moveOneStep();
 
         Assert.assertEquals(new Position(1, 1), machine.state.getCurrentPosition());
@@ -44,9 +43,7 @@ public class MachineTest
     public void setUp() throws Exception
     {
         this.commandRepository = new MockCommandRepository();
-        this.machine = new Machine(commandRepository);
-
-        machine.loadProgram(new MockProgramLoader());
+        this.machine = new Machine(commandRepository, new MockProgramLoader());
     }
 
     @Test
@@ -86,13 +83,13 @@ class MockCommandRepository implements ICommandRepository
 class MockProgramLoader implements IProgramLoader
 {
     @Override
-    public List<String> loadProgram() throws IOException
+    public List<char[]> loadProgram() throws ConfigException
     {
-        List<String> result = new ArrayList<>();
+        List<char[]> result = new ArrayList<>();
 
-        result.add(">  v");
-        result.add("    ");
-        result.add("^  <");
+        result.add(">  v".toCharArray());
+        result.add("    ".toCharArray());
+        result.add("^  <".toCharArray());
 
         return result;
     }

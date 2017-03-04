@@ -1,6 +1,5 @@
 package com.emeraldpowder;
 
-import java.io.IOException;
 import java.util.Map;
 
 /**
@@ -10,7 +9,8 @@ public interface ITableLoader
 {
     /**
      * Loads table, that resembles char->string association
+     *
      * @return
      */
-    Map<Character, String> loadTable() throws IOException;
+    Map<Character, String> loadTable() throws ConfigException;
 }

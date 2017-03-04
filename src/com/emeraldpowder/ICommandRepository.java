@@ -7,6 +7,7 @@ public interface ICommandRepository
 {
     /**
      * Instantiates new Command, according to given symbol, as specified in config file
+     *
      * @param symbol
      * @return
      * @throws ConfigException

@@ -1,7 +1,7 @@
 package com.emeraldpowder.commands;
 
 import com.emeraldpowder.Command;
-import com.emeraldpowder.Machine;
+import com.emeraldpowder.IMachineState;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,10 +12,10 @@ import java.io.InputStreamReader;
  */
 public class CommandRead extends Command
 {
-    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    static final BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
     @Override
-    public void execute(Machine machine)
+    public void execute(IMachineState machineState)
     {
         String read = null;
         try
@@ -30,10 +30,10 @@ public class CommandRead extends Command
         switch (character)
         {
             case '&':
-                machine.state.pushStack(Integer.parseInt(read));
+                machineState.pushStack(Integer.parseInt(read));
                 break;
             case '~':
-                machine.state.pushStack(read.charAt(0));
+                machineState.pushStack(read.charAt(0));
                 break;
         }
     }

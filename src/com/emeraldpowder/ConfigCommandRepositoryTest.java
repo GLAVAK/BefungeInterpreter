@@ -5,7 +5,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -57,7 +56,7 @@ class MockClassResolver implements IClassResolver
 class MockTableLoader implements ITableLoader
 {
     @Override
-    public Map<Character, String> loadTable() throws IOException
+    public Map<Character, String> loadTable() throws ConfigException
     {
         Map<Character, String> result = new HashMap<>();
 

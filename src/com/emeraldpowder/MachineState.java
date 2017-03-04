@@ -2,41 +2,101 @@ package com.emeraldpowder;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
+import java.util.List;
 
 /**
  * Created by glavak on Feb 17, 17.
  */
-public class MachineState
+public class MachineState implements IMachineState
 {
-    public MovingDirection movingDirection;
-    public boolean isInStringMode;
-    public boolean bridgeNextStep;
-    private Position currentPosition;
-    private Deque<Integer> stack;
+    private final Position currentPosition;
+    private final Deque<Integer> stack;
+    private MovingDirection movingDirection;
+    private boolean isInStringMode;
+    private boolean bridgeNextStep;
     private boolean isStopped;
+    private List<char[]> program;
 
-    public MachineState()
+    public MachineState(List<char[]> program)
     {
         currentPosition = new Position(0, 0);
         movingDirection = MovingDirection.Right;
         isInStringMode = false;
         stack = new ArrayDeque<>();
+        this.program = program;
+    }
+
+    public char getProgramSymbol(Position position)
+    {
+        return program.get(position.y)[position.x];
+    }
+
+    public void setProgramSymbol(Position position, char symbol)
+    {
+        program.get(position.y)[position.x] = symbol;
+    }
+
+    @Override
+    public boolean isPositionInsideBounds(Position position)
+    {
+        return !(position.x < 0 ||
+                position.y < 0 ||
+                position.x > program.get(position.y).length ||
+                position.y > program.size());
+    }
+
+    public MovingDirection getMovingDirection()
+    {
+        return movingDirection;
+    }
+
+    public void setMovingDirection(MovingDirection movingDirection)
+    {
+        this.movingDirection = movingDirection;
+    }
+
+    public boolean isBridgeNextStep()
+    {
+        return bridgeNextStep;
+    }
+
+    public void setBridgeNextStep(boolean bridgeNextStep)
+    {
+        this.bridgeNextStep = bridgeNextStep;
+    }
+
+    public boolean isInStringMode()
+    {
+        return isInStringMode;
+    }
+
+    public void toggleStringMode()
+    {
+        isInStringMode = !isInStringMode;
     }
 
     public int popStack()
     {
-        if(stack.isEmpty())
+        if (stack.isEmpty())
+        {
             return 0;
+        }
         else
+        {
             return stack.pop();
+        }
     }
 
     public char popStackChar()
     {
-        if(stack.isEmpty())
+        if (stack.isEmpty())
+        {
             return 0;
+        }
         else
+        {
             return (char) stack.pop().intValue();
+        }
     }
 
     public void pushStack(int value)

@@ -1,38 +1,44 @@
 package com.emeraldpowder.commands;
 
-import com.emeraldpowder.*;
+import com.emeraldpowder.Command;
+import com.emeraldpowder.IMachineState;
+import com.emeraldpowder.MovingDirection;
+
+import java.util.Random;
 
 /**
  * Created by glavak on Feb 17, 17.
  */
 public class CommandChangeDirection extends Command
 {
+    private static final Random random = new Random();
+
     @Override
-    public void execute(Machine machine)
+    public void execute(IMachineState machineState)
     {
         switch (character)
         {
             case '^':
-                machine.state.movingDirection = MovingDirection.Up;
+                machineState.setMovingDirection(MovingDirection.Up);
                 break;
             case '>':
-                machine.state.movingDirection = MovingDirection.Right;
+                machineState.setMovingDirection(MovingDirection.Right);
                 break;
             case 'v':
-                machine.state.movingDirection = MovingDirection.Down;
+                machineState.setMovingDirection(MovingDirection.Down);
                 break;
             case '<':
-                machine.state.movingDirection = MovingDirection.Left;
+                machineState.setMovingDirection(MovingDirection.Left);
                 break;
             case '?':
-                machine.state.movingDirection = getRandomDirection();
+                machineState.setMovingDirection(getRandomDirection());
                 break;
         }
     }
 
     private MovingDirection getRandomDirection()
     {
-        switch (Main.random.nextInt(4))
+        switch (random.nextInt(4))
         {
             case 0:
                 return MovingDirection.Up;

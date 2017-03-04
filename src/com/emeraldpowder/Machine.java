@@ -1,42 +1,17 @@
 package com.emeraldpowder;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Created by glavak on Feb 17, 17.
  */
 public class Machine
 {
-    public final MachineState state;
-    private List<String> program;
-
+    public final IMachineState state;
     private final ICommandRepository commandRepository;
 
-    public Machine(ICommandRepository commandRepository)
+    public Machine(ICommandRepository commandRepository, IProgramLoader programLoader) throws ConfigException
     {
-        this.state = new MachineState();
         this.commandRepository = commandRepository;
-    }
-
-    public void loadProgram(IProgramLoader programLoader) throws IOException
-    {
-        program = programLoader.loadProgram();
-    }
-
-    public char getProgramSymbol(Position position)
-    {
-        return program.get(position.y).charAt(position.x);
-    }
-
-    public void setProgramSymbol(Position position, char symbol)
-    {
-        String line = program.get(position.y);
-        line = line.substring(0, position.x) +
-                symbol +
-                line.substring(position.x + 1, line.length());
-        program.set(position.y, line);
+        state = new MachineState(programLoader.loadProgram());
     }
 
     /**
@@ -47,12 +22,12 @@ public class Machine
     public void step()
             throws ConfigException, ProgramException
     {
-        char symbol = getProgramSymbol(state.getCurrentPosition());
+        char symbol = state.getProgramSymbol(state.getCurrentPosition());
 
-        if (!state.isInStringMode || symbol == '"')
+        if (!state.isInStringMode() || symbol == '"')
         {
             Command command = commandRepository.getCommandForSymbol(symbol);
-            command.execute(this);
+            command.execute(state);
         }
         else
         {
@@ -72,15 +47,14 @@ public class Machine
     {
         Position position = state.getCurrentPosition();
 
-
         int speed = 1;
-        if (state.bridgeNextStep)
+        if (state.isBridgeNextStep())
         {
             speed++;
-            state.bridgeNextStep = false;
+            state.setBridgeNextStep(false);
         }
 
-        switch (state.movingDirection)
+        switch (state.getMovingDirection())
         {
             case Up:
                 position.y -= speed;
@@ -96,10 +70,7 @@ public class Machine
                 break;
         }
 
-        if (position.x < 0 ||
-                position.y < 0 ||
-                position.x > program.get(position.y).length() ||
-                position.y > program.size())
+        if (!state.isPositionInsideBounds(position))
         {
             throw new ProgramException(String.format(
                     "Machine moved out of program, position (%d, %d)", position.x, position.y));

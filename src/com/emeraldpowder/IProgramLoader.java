@@ -10,8 +10,9 @@ public interface IProgramLoader
 {
     /**
      * Loads rectangular program
+     *
      * @return List, representing lines in loaded program. Length of all lines are equal
      * @throws IOException
      */
-    List<String> loadProgram() throws IOException;
+    List<char[]> loadProgram() throws ConfigException;
 }

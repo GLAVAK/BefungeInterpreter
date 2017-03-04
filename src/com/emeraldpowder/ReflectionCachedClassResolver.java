@@ -8,7 +8,7 @@ import java.util.Map;
  */
 public class ReflectionCachedClassResolver implements IClassResolver
 {
-    private Map<String, Class<?>> classes;
+    private final Map<String, Class<?>> classes;
 
     public ReflectionCachedClassResolver()
     {
@@ -20,7 +20,7 @@ public class ReflectionCachedClassResolver implements IClassResolver
     {
         Class<?> requiredClass = classes.get(name);
 
-        if(requiredClass == null)
+        if (requiredClass == null)
         {
             requiredClass = Class.forName(name);
             classes.put(name, requiredClass);

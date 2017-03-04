@@ -1,7 +1,6 @@
 package com.emeraldpowder;
 
-import java.io.*;
-import java.util.HashMap;
+import java.io.IOException;
 import java.util.Map;
 
 /**
@@ -9,12 +8,10 @@ import java.util.Map;
  */
 public class ConfigCommandRepository implements ICommandRepository
 {
+    private final IClassResolver classResolver;
     private Map<Character, String> classNames;
 
-    private final IClassResolver classResolver;
-
     public ConfigCommandRepository(IClassResolver classResolver)
-            throws IOException
     {
         this.classResolver = classResolver;
     }
@@ -52,7 +49,7 @@ public class ConfigCommandRepository implements ICommandRepository
     }
 
     public void loadTable(ITableLoader tableLoader)
-            throws IOException
+            throws ConfigException
     {
         classNames = tableLoader.loadTable();
     }

@@ -1,11 +1,8 @@
 package com.emeraldpowder;
 
-import java.util.Random;
-
 public class Main
 {
-    public static final Random random = new Random();
-    public static final String filename = "programs/factorial.txt";
+    private static final String filename = "programs/factorial.txt";
 
     public static void main(String[] args)
     {
@@ -14,13 +11,15 @@ public class Main
             ConfigCommandRepository repository = new ConfigCommandRepository(new ReflectionCachedClassResolver());
             repository.loadTable(new FileTableLoader("com/emeraldpowder/commands.txt"));
 
-            Machine machine = new Machine(repository);
-            machine.loadProgram(new FileProgramLoader(filename));
+            Machine machine = new Machine(repository, new FileProgramLoader(filename));
 
+            System.out.println("==== program started ====");
             while (!machine.state.isStopped())
             {
                 machine.step();
             }
+            System.out.println();
+            System.out.println("==== program exited ====");
         }
         catch (Exception e)
         {

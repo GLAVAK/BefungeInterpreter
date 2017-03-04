@@ -1,7 +1,7 @@
 package com.emeraldpowder.commands;
 
 import com.emeraldpowder.Command;
-import com.emeraldpowder.Machine;
+import com.emeraldpowder.IMachineState;
 
 /**
  * Created by glavak on Feb 17, 17.
@@ -9,12 +9,12 @@ import com.emeraldpowder.Machine;
 public class CommandLogicalNot extends Command
 {
     @Override
-    public void execute(Machine machine)
+    public void execute(IMachineState machineState)
     {
-        boolean a = (machine.state.popStack() != 0);
+        boolean a = (machineState.popStack() != 0);
 
         a = !a;
 
-        machine.state.pushStack(a ? 1 : 0);
+        machineState.pushStack(a ? 1 : 0);
     }
 }

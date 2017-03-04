@@ -1,8 +1,7 @@
 package com.emeraldpowder.commands;
 
 import com.emeraldpowder.Command;
-import com.emeraldpowder.Machine;
-import com.emeraldpowder.MachineState;
+import com.emeraldpowder.IMachineState;
 import com.emeraldpowder.MovingDirection;
 
 /**
@@ -11,30 +10,30 @@ import com.emeraldpowder.MovingDirection;
 public class CommandCondition extends Command
 {
     @Override
-    public void execute(Machine machine)
+    public void execute(IMachineState machineState)
     {
-        boolean value = (machine.state.popStack() != 0);
+        boolean value = (machineState.popStack() != 0);
 
         switch (character)
         {
             case '|':
                 if (value)
                 {
-                    machine.state.movingDirection = MovingDirection.Up;
+                    machineState.setMovingDirection(MovingDirection.Up);
                 }
                 else
                 {
-                    machine.state.movingDirection = MovingDirection.Down;
+                    machineState.setMovingDirection(MovingDirection.Down);
                 }
                 break;
             case '_':
                 if (value)
                 {
-                    machine.state.movingDirection = MovingDirection.Left;
+                    machineState.setMovingDirection(MovingDirection.Left);
                 }
                 else
                 {
-                    machine.state.movingDirection = MovingDirection.Right;
+                    machineState.setMovingDirection(MovingDirection.Right);
                 }
                 break;
         }

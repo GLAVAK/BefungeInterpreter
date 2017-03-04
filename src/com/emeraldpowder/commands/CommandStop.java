@@ -1,8 +1,7 @@
 package com.emeraldpowder.commands;
 
 import com.emeraldpowder.Command;
-import com.emeraldpowder.Machine;
-import com.emeraldpowder.MachineState;
+import com.emeraldpowder.IMachineState;
 
 /**
  * Created by glavak on Feb 17, 17.
@@ -10,8 +9,8 @@ import com.emeraldpowder.MachineState;
 public class CommandStop extends Command
 {
     @Override
-    public void execute(Machine machine)
+    public void execute(IMachineState machineState)
     {
-        machine.state.Stop();
+        machineState.Stop();
     }
 }

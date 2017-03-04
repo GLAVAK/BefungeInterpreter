@@ -19,28 +19,53 @@ public class FileProgramLoader implements IProgramLoader
     }
 
     @Override
-    public List<String> loadProgram() throws IOException
+    public List<char[]> loadProgram() throws ConfigException
     {
-        List<String> result = new ArrayList<>();
+        List<char[]> result = new ArrayList<>();
 
-        BufferedReader programReader = new BufferedReader(new FileReader(filename));
-
-        String line = programReader.readLine();
+        BufferedReader programReader = null;
         int maxLineLength = 0;
-        while (line != null)
-        {
-            result .add(line);
-            maxLineLength = Math.max(maxLineLength, line.length());
 
-            line = programReader.readLine();
+        try
+        {
+            programReader = new BufferedReader(new FileReader(filename));
+
+            String line = programReader.readLine();
+            while (line != null)
+            {
+                result.add(line.toCharArray());
+                maxLineLength = Math.max(maxLineLength, line.length());
+
+                line = programReader.readLine();
+            }
+        }
+        catch (IOException e)
+        {
+            throw new ConfigException("Reading program error", e);
+        }
+        finally
+        {
+            try
+            {
+                if (programReader != null)
+                {
+                    programReader.close();
+                }
+            }
+            catch (IOException e)
+            {
+                throw new ConfigException("Reading program error", e);
+            }
         }
 
         // Set length of all lines equals to maximum:
         for (int i = 0; i < result.size(); i++)
         {
-            while (result.get(i).length() < maxLineLength)
+            while (result.get(i).length < maxLineLength)
             {
-                result.set(i, result.get(i) + " ");
+                char[] oldArray = result.get(i);
+                result.set(i, new char[maxLineLength]);
+                System.arraycopy(oldArray, 0, result.get(i), 0, oldArray.length);
             }
         }
 

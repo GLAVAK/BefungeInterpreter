@@ -1,8 +1,7 @@
 package com.emeraldpowder.commands;
 
 import com.emeraldpowder.Command;
-import com.emeraldpowder.Machine;
-import com.emeraldpowder.MachineState;
+import com.emeraldpowder.IMachineState;
 
 /**
  * Created by glavak on Feb 17, 17.
@@ -10,17 +9,21 @@ import com.emeraldpowder.MachineState;
 public class CommandAsk extends Command
 {
     @Override
-    public void execute(Machine machine)
+    public void execute(IMachineState machineState)
     {
         String read = System.console().readLine();
         int value = 0;
 
         switch (character)
         {
-            case '&': value = Integer.parseInt(read); break;
-            case '~': value = (int) read.charAt(0); break;
+            case '&':
+                value = Integer.parseInt(read);
+                break;
+            case '~':
+                value = (int) read.charAt(0);
+                break;
         }
 
-        machine.state.pushStack(value);
+        machineState.pushStack(value);
     }
 }

@@ -7,5 +7,5 @@ public abstract class Command
 {
     public char character;
 
-    public abstract void execute(Machine machine);
+    public abstract void execute(IMachineState machineState);
 }
