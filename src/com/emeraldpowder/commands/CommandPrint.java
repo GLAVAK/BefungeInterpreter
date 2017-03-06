@@ -21,6 +21,6 @@ public class CommandPrint extends Command
                 result = machineState.popStack() + " ";
                 break;
         }
-        System.out.print(result);
+        machineState.getStdout().print(result);
     }
 }

@@ -1,5 +1,7 @@
 package com.emeraldpowder;
 
+import java.io.InputStream;
+import java.io.PrintStream;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.List;
@@ -16,14 +18,18 @@ public class MachineState implements IMachineState
     private boolean bridgeNextStep;
     private boolean isStopped;
     private List<char[]> program;
+    private PrintStream stdout;
+    private InputStream stdin;
 
-    public MachineState(List<char[]> program)
+    public MachineState(List<char[]> program, PrintStream stdout, InputStream stdin)
     {
         currentPosition = new Position(0, 0);
         movingDirection = MovingDirection.Right;
         isInStringMode = false;
         stack = new ArrayDeque<>();
         this.program = program;
+        this.stdout = stdout;
+        this.stdin = stdin;
     }
 
     public char getProgramSymbol(Position position)
@@ -43,6 +49,16 @@ public class MachineState implements IMachineState
                 position.y < 0 ||
                 position.x > program.get(position.y).length ||
                 position.y > program.size());
+    }
+
+    public PrintStream getStdout()
+    {
+        return stdout;
+    }
+
+    public InputStream getStdin()
+    {
+        return stdin;
     }
 
     public MovingDirection getMovingDirection()

@@ -11,17 +11,18 @@
     <property name="lib.dir"     value="lib"/>
 
 
+    <path id="classpath">
+        <fileset dir="${lib.dir}" includes="**/*.jar"/>
+    </path>
+
+
     <target name="clean">
         <delete dir="${build.dir}"/>
     </target>
 
     <target name="compile">
         <mkdir dir="${classes.dir}"/>
-        <javac srcdir="${src.dir}" destdir="${classes.dir}">
-            <classpath>
-                <fileset dir="${lib.dir}" includes="**/*.jar"/>
-            </classpath>
-        </javac>
+        <javac srcdir="${src.dir}" destdir="${classes.dir}" classpathref="classpath"/>
     </target>
 
     <target name="jar" depends="compile">
@@ -37,12 +38,20 @@
         <jar destfile="${jar.dir}/${ant.project.name}.jar" update="true">
             <fileset dir="${src.dir}">
                 <include name="**/*.txt"/>
+                <include name="**/*.properties"/>
             </fileset>
         </jar>
     </target>
 
     <target name="run" depends="packResources">
-        <java jar="${jar.dir}/${ant.project.name}.jar" fork="true"/>
+        <!--<java jar="${jar.dir}/${ant.project.name}.jar" fork="true"/>-->
+
+        <java fork="true" classname="${main-class}">
+            <classpath>
+                <path refid="classpath"/>
+                <path location="${jar.dir}/${ant.project.name}.jar"/>
+            </classpath>
+        </java>
     </target>
 
     <target name="unittest">

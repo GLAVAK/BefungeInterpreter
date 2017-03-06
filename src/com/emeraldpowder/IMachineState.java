@@ -1,5 +1,8 @@
 package com.emeraldpowder;
 
+import java.io.InputStream;
+import java.io.PrintStream;
+
 /**
  * Created by glavak on Feb 17, 17.
  */
@@ -36,4 +39,8 @@ public interface IMachineState
     void setProgramSymbol(Position position, char symbol);
 
     boolean isPositionInsideBounds(Position position);
+
+    PrintStream getStdout();
+
+    InputStream getStdin();
 }

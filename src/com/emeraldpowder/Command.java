@@ -7,5 +7,5 @@ public abstract class Command
 {
     public char character;
 
-    public abstract void execute(IMachineState machineState);
+    public abstract void execute(IMachineState machineState) throws ProgramException, ConfigException;
 }

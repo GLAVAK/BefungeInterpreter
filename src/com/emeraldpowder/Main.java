@@ -1,8 +1,11 @@
 package com.emeraldpowder;
 
+import org.apache.log4j.Logger;
+
 public class Main
 {
     private static final String filename = "programs/factorial.txt";
+    private static final Logger logger = Logger.getLogger(Main.class);
 
     public static void main(String[] args)
     {
@@ -21,8 +24,14 @@ public class Main
             System.out.println();
             System.out.println("==== program exited ====");
         }
-        catch (Exception e)
+        catch (ProgramException e)
         {
+            logger.error("Program Exception: " + e.getMessage());
+            e.printStackTrace();
+        }
+        catch (ConfigException e)
+        {
+            logger.error("Config Exception: " + e.getMessage());
             e.printStackTrace();
         }
     }

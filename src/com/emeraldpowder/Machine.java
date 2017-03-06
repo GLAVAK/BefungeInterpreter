@@ -11,7 +11,7 @@ public class Machine
     public Machine(ICommandRepository commandRepository, IProgramLoader programLoader) throws ConfigException
     {
         this.commandRepository = commandRepository;
-        state = new MachineState(programLoader.loadProgram());
+        state = new MachineState(programLoader.loadProgram(), System.out, System.in);
     }
 
     /**
