@@ -12,7 +12,7 @@ public interface IProgramLoader
      * Loads rectangular program
      *
      * @return List, representing lines in loaded program. Length of all lines are equal
-     * @throws IOException
+     * @throws ConfigException if reading error
      */
     List<char[]> loadProgram() throws ConfigException;
 }

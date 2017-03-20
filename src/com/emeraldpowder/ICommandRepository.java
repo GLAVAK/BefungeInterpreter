@@ -6,11 +6,11 @@ package com.emeraldpowder;
 public interface ICommandRepository
 {
     /**
-     * Instantiates new Command, according to given symbol, as specified in config file
+     * Creates new Command, according to given symbol, as specified in config file
      *
      * @param symbol
-     * @return
-     * @throws ConfigException
+     * @return New instance of command of required type
+     * @throws ConfigException if specified class not exists or can't be instantiated
      * @throws ProgramException if symbol has no associated command
      */
     Command getCommandForSymbol(char symbol)

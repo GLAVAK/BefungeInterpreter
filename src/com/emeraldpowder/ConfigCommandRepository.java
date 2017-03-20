@@ -1,15 +1,16 @@
 package com.emeraldpowder;
 
+import org.apache.log4j.Logger;
+
 import java.io.IOException;
 import java.util.Map;
 
-/**
- * Created by glavak on Feb 17, 17.
- */
 public class ConfigCommandRepository implements ICommandRepository
 {
     private final IClassResolver classResolver;
     private Map<Character, String> classNames;
+
+    private static final Logger logger = Logger.getLogger(ConfigCommandRepository.class);
 
     public ConfigCommandRepository(IClassResolver classResolver)
     {
@@ -22,7 +23,7 @@ public class ConfigCommandRepository implements ICommandRepository
         String className = classNames.get(symbol);
         if (className == null)
         {
-            throw new ProgramException(String.format("Unknown symbol '%s'", symbol + ""));
+            throw new ProgramException(String.format("Unknown symbol \"%s\"", symbol + ""));
         }
 
         Class<?> requiredClass;
@@ -40,6 +41,9 @@ public class ConfigCommandRepository implements ICommandRepository
             // Instantiate command
             Command command = (Command) requiredClass.newInstance();
             command.character = symbol;
+
+            logger.debug("Command \"" + symbol + "\" instantiated");
+
             return command;
         }
         catch (Exception e)
@@ -48,6 +52,12 @@ public class ConfigCommandRepository implements ICommandRepository
         }
     }
 
+    /**
+     * Loads table of characters in program to commands binds
+     *
+     * @param tableLoader ITableLoader used to load table
+     * @throws ConfigException If taleLoader fails
+     */
     public void loadTable(ITableLoader tableLoader)
             throws ConfigException
     {

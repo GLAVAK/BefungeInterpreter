@@ -10,7 +10,8 @@ public interface ITableLoader
     /**
      * Loads table, that resembles char->string association
      *
-     * @return
+     * @return table as Map<Character, String>
+     * @throws ConfigException if incorrect config format or reading error
      */
     Map<Character, String> loadTable() throws ConfigException;
 }

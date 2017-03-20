@@ -9,7 +9,8 @@ public interface IClassResolver
      * Returns Class object by class name
      *
      * @param name
-     * @return
+     * @return Class\<?\> object for current class
+     * @throws ClassNotFoundException
      */
     Class<?> getClassByName(String name) throws ClassNotFoundException;
 }

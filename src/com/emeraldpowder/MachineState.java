@@ -27,6 +27,7 @@ public class MachineState implements IMachineState
         movingDirection = MovingDirection.Right;
         isInStringMode = false;
         stack = new ArrayDeque<>();
+
         this.program = program;
         this.stdout = stdout;
         this.stdin = stdin;

@@ -38,6 +38,12 @@ public interface IMachineState
 
     void setProgramSymbol(Position position, char symbol);
 
+    /**
+     * Returns whether the given position is inside the program array
+     *
+     * @param position position to check
+     * @return
+     */
     boolean isPositionInsideBounds(Position position);
 
     PrintStream getStdout();

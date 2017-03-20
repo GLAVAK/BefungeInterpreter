@@ -5,6 +5,9 @@ import org.apache.log4j.Logger;
 public class Main
 {
     private static final String filename = "programs/factorial.txt";
+    //private static final String filename = "programs/less_more.txt";
+    //private static final String filename = "programs/quine.txt";
+
     private static final Logger logger = Logger.getLogger(Main.class);
 
     public static void main(String[] args)

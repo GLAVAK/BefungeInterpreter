@@ -9,6 +9,7 @@
     <property name="main-class"  value="com.emeraldpowder.Main"/>
 
     <property name="lib.dir"     value="lib"/>
+    <property name="doc.dir"     value="documentation"/>
 
 
     <path id="classpath">
@@ -57,8 +58,12 @@
     <target name="unittest">
         <junit haltonfailure="true" printsummary="true" showoutput="yes">
             <classpath>
+                <path refid="classpath"/>
+                <path location="${jar.dir}/${ant.project.name}.jar"/>
                 <fileset dir="${lib.dir}" includes="**/*.jar"/>
             </classpath>
+
+            <formatter type="plain" usefile="false" /> <!-- to screen -->
 
             <batchtest fork="yes">
                 <fileset dir="${src.dir}">
@@ -66,6 +71,11 @@
                 </fileset>
             </batchtest>
         </junit>
+    </target>
+
+    <!-- Generate javadocs for current project into ${doc.dir} -->
+    <target name="doc" description="generate documentation">
+        <javadoc sourcepath="${src.dir}" destdir="${doc.dir}"/>
     </target>
 
     <target name="clean-build" depends="clean,jar"/>
